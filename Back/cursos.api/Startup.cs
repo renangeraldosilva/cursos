@@ -49,12 +49,17 @@ namespace cursos.api
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "cursos.api v1"));
             }
-
+            
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
             app.UseAuthorization();
+
+             app.UseCors(x=>x.AllowAnyHeader()
+                            .AllowAnyMethod()
+                            .AllowAnyOrigin()
+            );
 
             app.UseEndpoints(endpoints =>
             {

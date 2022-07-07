@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\renan\\OneDrive\\Área de Trabalho\\ManterCursos\\Curso\\Back\\cursos.api\\cursos.api.csproj": {}
+    "C:\\Users\\renan\\OneDrive\\Área de Trabalho\\Curso\\Back\\cursos.api\\cursos.api.csproj": {}
   },
   "projects": {
-    "C:\\Users\\renan\\OneDrive\\Área de Trabalho\\ManterCursos\\Curso\\Back\\cursos.api\\cursos.api.csproj": {
+    "C:\\Users\\renan\\OneDrive\\Área de Trabalho\\Curso\\Back\\cursos.api\\cursos.api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\renan\\OneDrive\\Área de Trabalho\\ManterCursos\\Curso\\Back\\cursos.api\\cursos.api.csproj",
+        "projectUniqueName": "C:\\Users\\renan\\OneDrive\\Área de Trabalho\\Curso\\Back\\cursos.api\\cursos.api.csproj",
         "projectName": "cursos.api",
-        "projectPath": "C:\\Users\\renan\\OneDrive\\Área de Trabalho\\ManterCursos\\Curso\\Back\\cursos.api\\cursos.api.csproj",
+        "projectPath": "C:\\Users\\renan\\OneDrive\\Área de Trabalho\\Curso\\Back\\cursos.api\\cursos.api.csproj",
         "packagesPath": "C:\\Users\\renan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\renan\\OneDrive\\Área de Trabalho\\ManterCursos\\Curso\\Back\\cursos.api\\obj\\",
+        "outputPath": "C:\\Users\\renan\\OneDrive\\Área de Trabalho\\Curso\\Back\\cursos.api\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

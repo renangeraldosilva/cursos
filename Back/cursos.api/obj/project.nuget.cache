@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "a/jz38+Sp26O7CqcEJUtX6pCg9E0fLNYscWKUpe7yORDxW+3kmFj1147SniHSuw7JyqyRZE5wlSHIdAsh8SvvA==",
+  "dgSpecHash": "QtaD+i9s/7KdMWwSQFlTA9qFvgRDW8fGEShVjfkoyDsTQEzH2k6KbboKcfKNDnhieIB+c0r74LkXaJCt3eLWsg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\renan\\OneDrive\\Área de Trabalho\\ManterCursos\\Curso\\Back\\cursos.api\\cursos.api.csproj",
+  "projectFilePath": "C:\\Users\\renan\\OneDrive\\Área de Trabalho\\Curso\\Back\\cursos.api\\cursos.api.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\renan\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\renan\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
