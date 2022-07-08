@@ -22,16 +22,16 @@ namespace cursos.api.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Curso> Get()
+        public async Task<IEnumerable<Curso>> Get()
         {
-            return _context.curso.Where(curso => curso.Ativo == true);
+            return await _context.curso.Where(curso => curso.Ativo == true).Include(x => x.Categorias).ToListAsync();
         }
 
         [HttpGet("{id}")]
 
-        public Curso GetById(int id)
+        public async Task<Curso> GetById(int id)
         {
-            return _context.curso.Where(curso => curso.CursoId == id && curso.Ativo == true).FirstOrDefault();
+            return await _context.curso.Where(curso => curso.CursoId == id && curso.Ativo == true).Include(x => x.Categorias).FirstOrDefaultAsync();
 
         }
 
@@ -46,10 +46,10 @@ namespace cursos.api.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCurso(int id, Curso curso)
         {
-             if (id != curso.CursoId)
-             {
-                 return BadRequest("não editou");
-             }
+            if (id != curso.CursoId)
+            {
+                return BadRequest("não editou");
+            }
 
             _context.Entry(curso).State = EntityState.Modified;
 
@@ -77,7 +77,7 @@ namespace cursos.api.Controllers
             return (_context.curso?.Any(e => e.CursoId == id)).GetValueOrDefault();
         }
 
-         [HttpDelete("{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DesativarCurso(int id)
         {
             var curso = await _context.curso.FindAsync(id);

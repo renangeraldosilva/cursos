@@ -44,7 +44,7 @@ namespace cursos.api.Migrations
                     b.Property<bool>("Ativo")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("CategoriasCategoriaId")
+                    b.Property<int>("CategoriaId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DataInicio")
@@ -61,7 +61,7 @@ namespace cursos.api.Migrations
 
                     b.HasKey("CursoId");
 
-                    b.HasIndex("CategoriasCategoriaId");
+                    b.HasIndex("CategoriaId");
 
                     b.ToTable("curso");
                 });
@@ -96,7 +96,9 @@ namespace cursos.api.Migrations
                 {
                     b.HasOne("cursos.api.Categoria", "Categorias")
                         .WithMany()
-                        .HasForeignKey("CategoriasCategoriaId");
+                        .HasForeignKey("CategoriaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Categorias");
                 });

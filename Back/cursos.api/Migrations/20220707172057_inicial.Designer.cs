@@ -10,7 +10,7 @@ using cursos.api.Data;
 namespace cursos.api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220706190829_inicial")]
+    [Migration("20220707172057_inicial")]
     partial class inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,7 +43,10 @@ namespace cursos.api.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CategoriasCategoriaId")
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("CategoriaId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DataInicio")
@@ -60,7 +63,7 @@ namespace cursos.api.Migrations
 
                     b.HasKey("CursoId");
 
-                    b.HasIndex("CategoriasCategoriaId");
+                    b.HasIndex("CategoriaId");
 
                     b.ToTable("curso");
                 });
@@ -95,7 +98,9 @@ namespace cursos.api.Migrations
                 {
                     b.HasOne("cursos.api.Categoria", "Categorias")
                         .WithMany()
-                        .HasForeignKey("CategoriasCategoriaId");
+                        .HasForeignKey("CategoriaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Categorias");
                 });

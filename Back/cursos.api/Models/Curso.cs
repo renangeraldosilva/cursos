@@ -9,7 +9,8 @@ namespace cursos.api
         public DateTime DataInicio { get; set; }
         public DateTime DataTermino { get; set; }
         public int QtdaAlunos { get; set; }
-        public Categoria Categorias { get; set; }
         public bool Ativo { get; set; }
+        public int CategoriaId { get; set; }
+        public Categoria? Categorias { get; set; }
     }
 }

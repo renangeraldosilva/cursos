@@ -30,17 +30,18 @@ namespace cursos.api.Migrations
                     DataInicio = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DataTermino = table.Column<DateTime>(type: "datetime2", nullable: false),
                     QtdaAlunos = table.Column<int>(type: "int", nullable: false),
-                    CategoriasCategoriaId = table.Column<int>(type: "int", nullable: true)
+                    Ativo = table.Column<bool>(type: "bit", nullable: false),
+                    CategoriaId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_curso", x => x.CursoId);
                     table.ForeignKey(
-                        name: "FK_curso_categoria_CategoriasCategoriaId",
-                        column: x => x.CategoriasCategoriaId,
+                        name: "FK_curso_categoria_CategoriaId",
+                        column: x => x.CategoriaId,
                         principalTable: "categoria",
                         principalColumn: "CategoriaId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -66,9 +67,9 @@ namespace cursos.api.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_curso_CategoriasCategoriaId",
+                name: "IX_curso_CategoriaId",
                 table: "curso",
-                column: "CategoriasCategoriaId");
+                column: "CategoriaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_log_CursoId",
