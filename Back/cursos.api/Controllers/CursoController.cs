@@ -32,15 +32,48 @@ namespace cursos.api.Controllers
         public async Task<Curso> GetById(int id)
         {
             return await _context.curso.Where(curso => curso.CursoId == id && curso.Ativo == true).Include(x => x.Categorias).FirstOrDefaultAsync();
-
+            
         }
 
         [HttpPost]
         public async Task<ActionResult<Curso>> PostCurso(Curso curso)
         {
+            var dataAtual = DateTime.Now;
+
+            if(curso.Ativo == false) {
+                return BadRequest("Não é possivel cadastrar um curso inativo");
+            }
+
+            if(curso.DataInicio.Date < dataAtual.Date || curso.DataTermino.Date < dataAtual.Date) {
+                return BadRequest("Não é possível inserir um curso com a data menor do que hoje");
+            }
+
+            // 2 e 4 nao deu certo (maior e maior / menor e menor)
+            var resultado = await _context.curso.Where(x => 
+                            (curso.DataInicio.Date <= x.DataInicio.Date && curso.DataTermino.Date >= x.DataTermino.Date && x.Ativo == true) ||
+                            (curso.DataInicio.Date <= x.DataInicio.Date && curso.DataTermino.Date <= x.DataTermino.Date && x.Ativo == true) || 
+                            (curso.DataInicio.Date >= x.DataInicio.Date && curso.DataTermino.Date <= x.DataTermino.Date && x.Ativo == true) || 
+                            (curso.DataInicio.Date >= x.DataInicio.Date && curso.DataTermino.Date >= x.DataTermino.Date && x.Ativo == true)).ToListAsync();
+
+            if (resultado.Count() > 0)
+            {
+                return BadRequest("Existe(m) curso(s) planejado(s) dentro do período imformado");
+            }
+
             await _context.curso.AddAsync(curso);
             await _context.SaveChangesAsync();
+
+            Log log = new Log();
+            log.Usuario = "Admin";
+            log.DataInclusao = DateTime.Now;
+            log.DataAtualizacao = DateTime.Now;
+            log.CursoId = curso.CursoId;
+
+            await _context.log.AddAsync(log);
+            await _context.SaveChangesAsync();
             return Ok(curso);
+       
+
         }
 
         [HttpPut("{id}")]
@@ -51,10 +84,38 @@ namespace cursos.api.Controllers
                 return BadRequest("não editou");
             }
 
+            var dataAtual = DateTime.Now;
+
+            if(curso.Ativo == false) {
+                return BadRequest("Não é possivel cadastrar um curso inativo");
+            }
+            
+
+            if(curso.DataInicio.Date < dataAtual.Date || curso.DataTermino.Date < dataAtual.Date) {
+                return BadRequest("Não é possível inserir um curso com a data menor do que hoje");
+            }
+
+            //  var resultado = await _context.curso.Where(x => 
+            //                 (curso.DataInicio.Date <= x.DataInicio.Date && curso.DataTermino.Date >= x.DataTermino.Date && x.Ativo == true) ||
+            //                 (curso.DataInicio.Date <= x.DataInicio.Date && curso.DataTermino.Date <= x.DataTermino.Date && x.Ativo == true) || 
+            //                 (curso.DataInicio.Date >= x.DataInicio.Date && curso.DataTermino.Date <= x.DataTermino.Date && x.Ativo == true) || 
+            //                 (curso.DataInicio.Date >= x.DataInicio.Date && curso.DataTermino.Date >= x.DataTermino.Date && x.Ativo == true)).ToListAsync();
+
+            // if (resultado.Count() > 0)
+            // {
+            //     return BadRequest("Existe(m) curso(s) planejado(s) dentro do período imformado");
+            // }
+
             _context.Entry(curso).State = EntityState.Modified;
 
             try
             {
+                await _context.SaveChangesAsync();
+
+                Log log = await _context.log.Where(x => x.CursoId == id).FirstOrDefaultAsync();
+                log.Usuario = "Admin2";
+                log.DataAtualizacao = DateTime.Now;
+                _context.Entry(log).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
@@ -88,6 +149,12 @@ namespace cursos.api.Controllers
 
             curso.Ativo = false;
             _context.Entry(curso).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            Log log = await _context.log.Where(x => x.CursoId == id).FirstOrDefaultAsync();
+            log.Usuario = "Admin2";
+            log.DataAtualizacao = DateTime.Now;
+            _context.Entry(log).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
             return Ok();

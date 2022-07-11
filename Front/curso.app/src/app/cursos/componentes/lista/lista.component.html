@@ -1,0 +1,25 @@
+<div class="container">
+    <h1>Lista de Cursos</h1>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Descrição</th>
+                <th scope="col">Data de Início</th>
+                <th scope="col">Data de Término</th>
+                <th scope="col">Quantidade de alunos por turma</th>
+                <th scope="col">Categoria</th>
+                <th scope="col">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let curso of cursos">
+                <td>{{ curso.descricao }}</td>
+                <td>{{ curso.dataInicio }}</td>
+                <td>{{ curso.dataTermino }}</td>
+                <td>{{ curso.qtdaAlunos }}</td>
+                <td>{{ curso.categorias.tipo }}</td>
+                <td> botao editar  e excluir</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
