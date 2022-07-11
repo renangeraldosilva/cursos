@@ -32,7 +32,6 @@ namespace cursos.api.Controllers
         public async Task<Curso> GetById(int id)
         {
             return await _context.curso.Where(curso => curso.CursoId == id && curso.Ativo == true).Include(x => x.Categorias).FirstOrDefaultAsync();
-            
         }
 
         [HttpPost]
@@ -40,20 +39,17 @@ namespace cursos.api.Controllers
         {
             var dataAtual = DateTime.Now;
 
-            if(curso.Ativo == false) {
+            if (curso.Ativo == false)
+            {
                 return BadRequest("Não é possivel cadastrar um curso inativo");
             }
 
-            if(curso.DataInicio.Date < dataAtual.Date || curso.DataTermino.Date < dataAtual.Date) {
+            if (curso.DataInicio.Date < dataAtual.Date || curso.DataTermino.Date < dataAtual.Date)
+            {
                 return BadRequest("Não é possível inserir um curso com a data menor do que hoje");
             }
 
-            // 2 e 4 nao deu certo (maior e maior / menor e menor)
-            var resultado = await _context.curso.Where(x => 
-                            (curso.DataInicio.Date <= x.DataInicio.Date && curso.DataTermino.Date >= x.DataTermino.Date && x.Ativo == true) ||
-                            (curso.DataInicio.Date <= x.DataInicio.Date && curso.DataTermino.Date <= x.DataTermino.Date && x.Ativo == true) || 
-                            (curso.DataInicio.Date >= x.DataInicio.Date && curso.DataTermino.Date <= x.DataTermino.Date && x.Ativo == true) || 
-                            (curso.DataInicio.Date >= x.DataInicio.Date && curso.DataTermino.Date >= x.DataTermino.Date && x.Ativo == true)).ToListAsync();
+            var resultado = await _context.curso.Where(x => (x.DataTermino.Date >= curso.DataInicio.Date) && (x.DataInicio.Date <= curso.DataTermino.Date) && x.Ativo == true && x.CursoId != curso.CursoId).ToListAsync();
 
             if (resultado.Count() > 0)
             {
@@ -72,7 +68,7 @@ namespace cursos.api.Controllers
             await _context.log.AddAsync(log);
             await _context.SaveChangesAsync();
             return Ok(curso);
-       
+
 
         }
 
@@ -86,25 +82,23 @@ namespace cursos.api.Controllers
 
             var dataAtual = DateTime.Now;
 
-            if(curso.Ativo == false) {
+            if (curso.Ativo == false)
+            {
                 return BadRequest("Não é possivel cadastrar um curso inativo");
             }
-            
 
-            if(curso.DataInicio.Date < dataAtual.Date || curso.DataTermino.Date < dataAtual.Date) {
+
+            if (curso.DataInicio.Date < dataAtual.Date || curso.DataTermino.Date < dataAtual.Date)
+            {
                 return BadRequest("Não é possível inserir um curso com a data menor do que hoje");
             }
 
-            //  var resultado = await _context.curso.Where(x => 
-            //                 (curso.DataInicio.Date <= x.DataInicio.Date && curso.DataTermino.Date >= x.DataTermino.Date && x.Ativo == true) ||
-            //                 (curso.DataInicio.Date <= x.DataInicio.Date && curso.DataTermino.Date <= x.DataTermino.Date && x.Ativo == true) || 
-            //                 (curso.DataInicio.Date >= x.DataInicio.Date && curso.DataTermino.Date <= x.DataTermino.Date && x.Ativo == true) || 
-            //                 (curso.DataInicio.Date >= x.DataInicio.Date && curso.DataTermino.Date >= x.DataTermino.Date && x.Ativo == true)).ToListAsync();
+            var resultado = await _context.curso.Where(x => (x.DataTermino.Date >= curso.DataInicio.Date) && (x.DataInicio.Date <= curso.DataTermino.Date) && x.Ativo == true && x.CursoId != curso.CursoId).ToListAsync();
 
-            // if (resultado.Count() > 0)
-            // {
-            //     return BadRequest("Existe(m) curso(s) planejado(s) dentro do período imformado");
-            // }
+            if (resultado.Count() > 0)
+            {
+                return BadRequest("Existe(m) curso(s) planejado(s) dentro do período imformado");
+            }
 
             _context.Entry(curso).State = EntityState.Modified;
 

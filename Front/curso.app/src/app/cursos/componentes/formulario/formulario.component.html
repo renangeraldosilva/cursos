@@ -1,1 +1,52 @@
-<p>formulario works!</p>
+<div class="container">
+    <div class="row">
+        <div class="col-12 mt-5">
+            <h4>Curso</h4>
+            <hr>
+            <form [formGroup]="formulario" (ngSubmit)="enviarFormulario()" class="mt-5">
+                <div class="row">
+                    <div class="col-12">
+                        <label class="col-sm-6 col-form-label">Descrição do assunto</label>
+                        <div class="col-sm-12">
+                            <input type="text" class="form-control form-control-sm" formControlName="descricao" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 mb-3">
+                        <label class="col-sm-6 col-form-label">Data de início</label>
+                        <div class="col-sm-12">
+                            <input type="date" class="form-control form-control-sm" formControlName="dataInicio" />
+                        </div>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <label class="col-sm-6 col-form-label">Data de término</label>
+                        <div class="col-sm-12">
+                            <input type="date" class="form-control form-control-sm" formControlName="dataTermino" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 mb-3">
+                        <label class="col-sm-6 col-form-label">Quantidade de alunos por turma</label>
+                        <div class="col-sm-12">
+                            <input type="number" class="form-control form-control-sm" formControlName="qtdaAlunos">
+                        </div>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <label class="col-sm-6 col-form-label">Categoria</label>
+                        <div class="col-sm-12">
+                            <input type="number" class="form-control form-control-sm" formControlName="categoriaId">
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-4 mb-3">
+                    <div class="col-12">
+                        <button type="subimt" class="btn btn-secondary">Salvar</button> 
+                        <button type="button" class="btn btn-primary btn-voltar" routerLink="">Voltar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

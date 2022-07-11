@@ -1,0 +1,8 @@
+button{
+    float: right;
+}
+
+.btn-voltar{
+    margin-right: 10px;
+    background-color: #3f51b5d0;
+}

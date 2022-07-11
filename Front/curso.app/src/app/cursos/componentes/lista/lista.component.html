@@ -1,5 +1,10 @@
-<div class="container">
-    <h1>Lista de Cursos</h1>
+<div class="container mt-4">
+    <div action="" class="form-inline">
+        <div class="form-group md-2">
+            <input class="form-control mb2-2" placeholder="Buscar" [(ngModel)]="filtroLista">
+        </div>
+    </div>
+    <button type="button" class="btn btn-primary" routerLink="/criar">Adicionar</button>
     <table class="table">
         <thead class="thead-dark">
             <tr>
@@ -13,13 +18,37 @@
         </thead>
         <tbody>
             <tr *ngFor="let curso of cursos">
+                <tr *ngFor="let curso of cursosFiltrados">
                 <td>{{ curso.descricao }}</td>
-                <td>{{ curso.dataInicio }}</td>
-                <td>{{ curso.dataTermino }}</td>
+                <td>{{ curso.dataInicio | date:'dd/MM/yyyy'}}</td>
+                <td>{{ curso.dataTermino | date:'dd/MM/yyyy'}}</td>
                 <td>{{ curso.qtdaAlunos }}</td>
                 <td>{{ curso.categorias.tipo }}</td>
-                <td> botao editar  e excluir</td>
+                <td><a class='far fa-edit' style='font-size:24px; color:orange'
+                        [routerLink]="['/editar', curso.cursoId]"></a> |
+                    <a class='fas fa-trash-alt' style='font-size:24px; color:#f44336'
+                        (click)="modalDeletar(modalConfirmacaoDeletar, curso.cursoId)"></a>
+                </td>
+                <tr>
             </tr>
         </tbody>
     </table>
 </div>
+
+<ng-template #modalConfirmacaoDeletar let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title">Atenção</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+            (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        Você tem certeza que deseja deletar este curso?
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"
+            (click)="modal.dismiss('Cross click')">Fechar</button>
+        <button type="button" class="btn btn-danger" (click)="modal.close('Save click')">Confirmar</button>
+    </div>
+</ng-template>
