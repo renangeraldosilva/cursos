@@ -6,7 +6,8 @@
             <form [formGroup]="formulario" (ngSubmit)="enviarFormulario()" class="mt-5">
                 <div class="row">
                     <div class="col-12">
-                        <label class="col-sm-6 col-form-label">Descrição do assunto</label>
+                        <p>*Campo de preenchimento obrigatório</p>
+                        <label class="col-sm-6 col-form-label">*Descrição do assunto</label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control form-control-sm" formControlName="descricao" />
                         </div>
@@ -14,13 +15,13 @@
                 </div>
                 <div class="row">
                     <div class="col-6 mb-3">
-                        <label class="col-sm-6 col-form-label">Data de início</label>
+                        <label class="col-sm-6 col-form-label">*Data de início</label>
                         <div class="col-sm-12">
                             <input type="date" class="form-control form-control-sm" formControlName="dataInicio" />
                         </div>
                     </div>
                     <div class="col-6 mb-3">
-                        <label class="col-sm-6 col-form-label">Data de término</label>
+                        <label class="col-sm-6 col-form-label">*Data de término</label>
                         <div class="col-sm-12">
                             <input type="date" class="form-control form-control-sm" formControlName="dataTermino" />
                         </div>
@@ -34,15 +35,18 @@
                         </div>
                     </div>
                     <div class="col-6 mb-3">
-                        <label class="col-sm-6 col-form-label">Categoria</label>
+                        <label class="col-sm-6 col-form-label">*Categoria</label>
                         <div class="col-sm-12">
-                            <input type="number" class="form-control form-control-sm" formControlName="categoriaId">
+                            <select formControlName="categoriaId" class="form-control form-control-sm">
+                                <option *ngFor="let categoria of categorias" [ngValue]="categoria.categoriaId">
+                                    {{categoria.tipo}}</option>
+                            </select>
                         </div>
                     </div>
                 </div>
                 <div class="row mt-4 mb-3">
                     <div class="col-12">
-                        <button type="subimt" class="btn btn-secondary">Salvar</button> 
+                        <button type="subimt" class="btn btn-secondary">Salvar</button>
                         <button type="button" class="btn btn-primary btn-voltar" routerLink="">Voltar</button>
                     </div>
                 </div>

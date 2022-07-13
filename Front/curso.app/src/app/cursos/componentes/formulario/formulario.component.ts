@@ -1,3 +1,5 @@
+import { Categoria } from './../../models/categoria.model';
+import { CategoriaService } from './../../services/categoria.service';
 import { CursoService } from './../../services/curso.service';
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
@@ -15,25 +17,28 @@ export class FormularioComponent implements OnInit {
   formulario: any;
   curso: Curso | undefined;
   id: any;
+  categorias: Categoria[] = [];
 
   constructor(
     private toastr: ToastrService,
     private cursoService: CursoService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private categoriaService: CategoriaService
   ) {
     this.formulario = new FormGroup({
       cursoId: new FormControl(0),
       descricao: new FormControl(null, Validators.required),
-      dataInicio: new FormControl('', Validators.required),
+      dataInicio: new FormControl(null, Validators.required),
       dataTermino: new FormControl(null, Validators.required),
-      categoriaId: new FormControl(0, Validators.required),
+      categoriaId: new FormControl(null, Validators.required),
       qtdaAlunos: new FormControl(0),
       ativo: new FormControl(true),
     });
   }
 
   ngOnInit(): void {
+    this.obterTodasAsCategorias();
     this.activatedRoute.paramMap.subscribe((params) => {
       this.id = params.get('id');
       if (this.id && this.id > 0) {
@@ -53,15 +58,19 @@ export class FormularioComponent implements OnInit {
       if (this.id && this.id > 0) {
         curso.cursoId = this.id;
 
-        this.cursoService.atualizar(curso).subscribe(() => {
-          this.toastr.success('Dados atualizados', 'Sucesso!');
-          this.router.navigate(['']);
-        });
+        this.cursoService.atualizar(curso).subscribe(
+          () => {
+            this.toastr.success('Dados atualizados.', 'Sucesso!');
+            this.router.navigate(['']);
+          },
+          (respostaError) => {
+            this.toastr.error(respostaError.error);
+          });
       } else {
         this.cursoService.salvar(curso).subscribe(
           (resposta) => {
             this.id = resposta.cursoId;
-            this.toastr.success('Cadastro Realizado!', 'Sucesso!');
+            this.toastr.success('Dados gravados com sucesso!');
             this.router.navigate(['']);
           },
           (respostaError) => {
@@ -70,7 +79,13 @@ export class FormularioComponent implements OnInit {
         );
       }
     } else {
-      this.toastr.error('Preencha todos os campos', 'Atenção!');
+      this.toastr.error('Preencha todos os campos obrigatórios.', 'Atenção!');
     }
+  }
+
+  obterTodasAsCategorias(): void {
+    this.categoriaService.obterTodos().subscribe((resposta) => {
+      this.categorias = resposta;
+    });
   }
 }

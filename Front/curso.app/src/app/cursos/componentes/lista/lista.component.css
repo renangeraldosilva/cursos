@@ -1,9 +1,30 @@
-button {
+.close{
+    border-radius: 7px;
+}
+
+.btn-adicionar{
     margin-top: 15px;
     margin-bottom: 15px;
     background-color: #3f51b5;
 }
 
-.close{
-    border-radius: 7px;
+.btn-voltar{
+    margin-top: 15px;
+    float: right;
+}
+
+.btn-limpar{
+    margin-top: 20px;
+    background-color:#f5d002 ;
+    color: #fff;
+}
+
+.btn-filtrar{
+    margin-left: 5px;
+    margin-top: 20px;
+    background-color: #3f51b5;
+}
+
+.pesquisa{
+font-size: 0.8rem;
 }

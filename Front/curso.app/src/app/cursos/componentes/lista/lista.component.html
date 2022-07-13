@@ -1,10 +1,22 @@
 <div class="container mt-4">
-    <div action="" class="form-inline">
-        <div class="form-group md-2">
-            <input class="form-control mb2-2" placeholder="Buscar" [(ngModel)]="filtroLista">
+    <div class="row">
+        <div action="" class="form-inline col-3">Buscar pela descrição
+            <div class="form-group md-2">
+                <input class="form-control mb2-2 pesquisa" placeholder="Buscar" [(ngModel)]="descricao">
+            </div>
+        </div>
+        <div class="col-3">Data de Início
+            <input type="date" class="form-control form-control-sm" [(ngModel)]="dataInicio" />
+        </div>
+        <div class="col-3">Data de Término
+            <input type="date" class="form-control form-control-sm" [(ngModel)]="dataTermino" />
+        </div>
+        <div class="col-3">
+            <button type="button" class="btn btn-warning btn-limpar" (click)="limparBusca()">Limpar busca</button>
+            <button type="button" class="btn btn-primary btn-filtrar" (click)="filtrarLista()">Filtrar</button>
         </div>
     </div>
-    <button type="button" class="btn btn-primary" routerLink="/criar">Adicionar</button>
+    <button type="button" class="btn btn-primary btn-adicionar" routerLink="/criar">Adicionar</button>
     <table class="table">
         <thead class="thead-dark">
             <tr>
@@ -18,7 +30,7 @@
         </thead>
         <tbody>
             <tr *ngFor="let curso of cursos">
-                <tr *ngFor="let curso of cursosFiltrados">
+            <tr *ngFor="let curso of cursosFiltrados">
                 <td>{{ curso.descricao }}</td>
                 <td>{{ curso.dataInicio | date:'dd/MM/yyyy'}}</td>
                 <td>{{ curso.dataTermino | date:'dd/MM/yyyy'}}</td>
@@ -29,10 +41,9 @@
                     <a class='fas fa-trash-alt' style='font-size:24px; color:#f44336'
                         (click)="modalDeletar(modalConfirmacaoDeletar, curso.cursoId)"></a>
                 </td>
-                <tr>
-            </tr>
         </tbody>
     </table>
+    <button type="button" class="btn btn-secondary btn-voltar" routerLink="/home">Voltar</button>
 </div>
 
 <ng-template #modalConfirmacaoDeletar let-modal>

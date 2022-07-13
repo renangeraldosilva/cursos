@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
+import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 import { Curso } from '../../models/curso.model';
 import { CursoService } from '../../services/curso.service';
@@ -19,7 +20,9 @@ export class ListaComponent implements OnInit {
   formulario: any;
   cursos: Curso[] = [];
   cursosFiltrados: any = [];
-  private _filtroLista: string = '';
+  descricao: string = '';
+  dataInicio: string = '';
+  dataTermino: string = '';
 
   constructor(
     private cursoService: CursoService,
@@ -35,33 +38,14 @@ export class ListaComponent implements OnInit {
     this.obterTodosOsCursos();
   }
 
-  public get filtroLista() {
-    return this._filtroLista;
-  }
-
-  public set filtroLista(value: string) {
-    this._filtroLista = value;
-    this.cursosFiltrados = this.filtroLista
-      ? this.filtrarCursos(this.filtroLista)
-      : this.cursos;
-  }
-
-  filtrarCursos(filtrarPor: string): any {
-    filtrarPor = filtrarPor.toLocaleLowerCase();
-    return this.cursos.filter(
-      (cursos: {
-        descricao: string;
-        dataInicio: string;
-        dataTermino: string;
-      }) =>
-        cursos.descricao.toLocaleLowerCase().indexOf(filtrarPor) !== -1 ||
-        cursos.dataInicio.toLocaleLowerCase().indexOf(filtrarPor) !== -1 ||
-        cursos.dataTermino.toLocaleLowerCase().indexOf(filtrarPor) !== -1
-    );
-  }
-
   obterTodosOsCursos(): void {
     this.cursoService.obterTodos().subscribe((resposta) => {
+      if(resposta != null && resposta.length > 0){
+        resposta.forEach(item => {
+          item.dataInicio = moment(item.dataInicio).format('YYYY-MM-DD');
+          item.dataTermino = moment(item.dataTermino).format('YYYY-MM-DD');
+        })
+      }
       this.cursosFiltrados = resposta;
       this.cursos = resposta;
     });
@@ -80,7 +64,7 @@ export class ListaComponent implements OnInit {
   deletar(id: number): void {
     this.cursoService.deletar(id).subscribe(
       () => {
-        this.toastr.success('', 'Registro Deletado!');
+        this.toastr.success('Registro Deletado!');
         this.obterTodosOsCursos();
       },
       (error) => {
@@ -88,4 +72,89 @@ export class ListaComponent implements OnInit {
       }
     );
   }
+
+  limparBusca(): void {
+    this.descricao = '';
+    this.dataInicio = '';
+    this.dataTermino = '';
+  }
+
+  filtrarPorDescricaoDataInicioDataTermino(): void {
+    let dataInicio = new Date(this.dataInicio);
+    let dataTermino = new Date(this.dataTermino);
+
+    this.cursosFiltrados = this.cursos.filter(x => x.descricao.toLocaleLowerCase().indexOf(this.descricao.toLocaleLowerCase()) !== -1 && new Date(x.dataInicio) >= dataInicio && new Date(x.dataTermino) <= dataTermino);
+  }
+
+  filtrarPorDataInicioDataTermino(): void {
+    let dataInicio = new Date(this.dataInicio);
+    let dataTermino = new Date(this.dataTermino);
+
+    this.cursosFiltrados = this.cursos.filter(x => new Date(x.dataInicio) >= dataInicio && new Date(x.dataTermino) <= dataTermino);
+  }
+
+  filtrarPorDescricaoDataInicio(): void {
+    let dataInicio = new Date(this.dataInicio);
+
+    this.cursosFiltrados = this.cursos.filter(x => x.descricao.toLocaleLowerCase().indexOf( this.descricao.toLocaleLowerCase()) !== -1 && new Date(x.dataInicio) >= dataInicio);
+  }
+
+  filtrarPorDescricaoDataTermino(): void {
+    let dataTermino = new Date(this.dataTermino);
+
+    this.cursosFiltrados = this.cursos.filter(x => x.descricao.toLocaleLowerCase().indexOf(this.descricao.toLocaleLowerCase()) !== -1 && new Date(x.dataTermino) <= dataTermino);
+  }
+
+  filtrarPorDataInicio(): void {
+    let dataInicio = new Date(this.dataInicio);
+
+    this.cursosFiltrados = this.cursos.filter(x => new Date(x.dataInicio) >= dataInicio);
+  }
+
+  filtrarPorDescricao(): void {
+    this.cursosFiltrados = this.cursos.filter(x => x.descricao.toLocaleLowerCase().indexOf(this.descricao.toLocaleLowerCase()) !== -1);
+  }
+
+  filtrarPorTermino(): void {
+    let dataTermino = new Date(this.dataTermino);
+
+    this.cursosFiltrados = this.cursos.filter(x => new Date(x.dataTermino) <= dataTermino);
+  }
+
+  filtrarLista(): void {
+
+    if(this.descricao != '' && this.dataInicio != '' && this.dataTermino != '') {
+      this.filtrarPorDescricaoDataInicioDataTermino();
+    }
+
+    else if(this.descricao == '' && this.dataInicio != '' && this.dataTermino != '') {
+      this.filtrarPorDataInicioDataTermino();
+    }
+
+    else if(this.descricao != '' && this.dataInicio != '' && this.dataTermino == '') {
+      this.filtrarPorDescricaoDataInicio();
+    }
+
+    else if(this.descricao != '' && this.dataInicio == '' && this.dataTermino != '') {
+      this.filtrarPorDescricaoDataTermino();
+    }
+
+    else if(this.descricao == '' && this.dataInicio != '' && this.dataTermino == '') {
+      this.filtrarPorDataInicio();
+    }
+
+    else if(this.descricao != '' && this.dataInicio == '' && this.dataTermino == '') {
+      this.filtrarPorDescricao();
+    }
+
+    else if(this.descricao == '' && this.dataInicio == '' && this.dataTermino != '') {
+      this.filtrarPorTermino();
+    } 
+
+    else if(this.descricao == '' && this.dataInicio == '' && this.dataTermino == '') {
+      this.cursosFiltrados = this.cursos;
+    } 
+  }
+
 }
+

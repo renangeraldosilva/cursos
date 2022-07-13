@@ -41,19 +41,19 @@ namespace cursos.api.Controllers
 
             if (curso.Ativo == false)
             {
-                return BadRequest("Não é possivel cadastrar um curso inativo");
+                return BadRequest("Não é possivel cadastrar um curso inativo.");
             }
 
             if (curso.DataInicio.Date < dataAtual.Date || curso.DataTermino.Date < dataAtual.Date)
             {
-                return BadRequest("Não é possível inserir um curso com a data menor do que hoje");
+                return BadRequest("Não é possível inserir um curso com a data menor do que hoje.");
             }
 
             var resultado = await _context.curso.Where(x => (x.DataTermino.Date >= curso.DataInicio.Date) && (x.DataInicio.Date <= curso.DataTermino.Date) && x.Ativo == true && x.CursoId != curso.CursoId).ToListAsync();
 
             if (resultado.Count() > 0)
             {
-                return BadRequest("Existe(m) curso(s) planejado(s) dentro do período imformado");
+                return BadRequest("Existe(m) curso(s) planejado(s) dentro do período informado.");
             }
 
             await _context.curso.AddAsync(curso);
@@ -90,14 +90,14 @@ namespace cursos.api.Controllers
 
             if (curso.DataInicio.Date < dataAtual.Date || curso.DataTermino.Date < dataAtual.Date)
             {
-                return BadRequest("Não é possível inserir um curso com a data menor do que hoje");
+                return BadRequest("Não é possível inserir um curso com a data menor do que hoje.");
             }
 
             var resultado = await _context.curso.Where(x => (x.DataTermino.Date >= curso.DataInicio.Date) && (x.DataInicio.Date <= curso.DataTermino.Date) && x.Ativo == true && x.CursoId != curso.CursoId).ToListAsync();
 
             if (resultado.Count() > 0)
             {
-                return BadRequest("Existe(m) curso(s) planejado(s) dentro do período imformado");
+                return BadRequest("Existe(m) curso(s) planejado(s) dentro do período informado.");
             }
 
             _context.Entry(curso).State = EntityState.Modified;

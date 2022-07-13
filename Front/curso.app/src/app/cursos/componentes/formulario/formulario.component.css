@@ -6,3 +6,8 @@ button{
     margin-right: 10px;
     background-color: #3f51b5d0;
 }
+
+p{
+    text-align: center;
+    font-weight: 500;
+}
