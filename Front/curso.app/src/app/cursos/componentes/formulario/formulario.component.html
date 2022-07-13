@@ -3,10 +3,10 @@
         <div class="col-12 mt-5">
             <h4>Curso</h4>
             <hr>
+            <p>*Campo de preenchimento obrigatório</p>
             <form [formGroup]="formulario" (ngSubmit)="enviarFormulario()" class="mt-5">
                 <div class="row">
                     <div class="col-12">
-                        <p>*Campo de preenchimento obrigatório</p>
                         <label class="col-sm-6 col-form-label">*Descrição do assunto</label>
                         <div class="col-sm-12">
                             <input type="text" class="form-control form-control-sm" formControlName="descricao" />

@@ -60,7 +60,7 @@ export class FormularioComponent implements OnInit {
 
         this.cursoService.atualizar(curso).subscribe(
           () => {
-            this.toastr.success('Dados atualizados.', 'Sucesso!');
+            this.toastr.success('Dados atualizados.');
             this.router.navigate(['']);
           },
           (respostaError) => {
@@ -70,7 +70,7 @@ export class FormularioComponent implements OnInit {
         this.cursoService.salvar(curso).subscribe(
           (resposta) => {
             this.id = resposta.cursoId;
-            this.toastr.success('Dados gravados com sucesso!');
+            this.toastr.success('Dados gravados com sucesso.');
             this.router.navigate(['']);
           },
           (respostaError) => {
@@ -79,7 +79,7 @@ export class FormularioComponent implements OnInit {
         );
       }
     } else {
-      this.toastr.error('Preencha todos os campos obrigatórios.', 'Atenção!');
+      this.toastr.error('Preencha todos os campos obrigatórios.');
     }
   }
 

@@ -1,13 +1,15 @@
 button{
     float: right;
+    border: none;
 }
 
 .btn-voltar{
     margin-right: 10px;
     background-color: #3f51b5d0;
+    border: none;
 }
 
 p{
-    text-align: center;
     font-weight: 500;
+    font-size: 12px;
 }

@@ -6,23 +6,27 @@
     margin-top: 15px;
     margin-bottom: 15px;
     background-color: #3f51b5;
+    border: none;
 }
 
 .btn-voltar{
     margin-top: 15px;
     float: right;
+    border: none;
 }
 
 .btn-limpar{
     margin-top: 20px;
     background-color:#f5d002 ;
     color: #fff;
+    border: none;
 }
 
 .btn-filtrar{
     margin-left: 5px;
     margin-top: 20px;
     background-color: #3f51b5;
+    border:none;
 }
 
 .pesquisa{
