@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
 
+
 @Component({
   selector: 'app-formulario',
   templateUrl: './formulario.component.html',
@@ -54,6 +55,10 @@ export class FormularioComponent implements OnInit {
   enviarFormulario(): void {
     if (this.formulario.valid) {
       const curso: Curso = this.formulario.value;
+
+      if(curso.qtdaAlunos == null) {
+        curso.qtdaAlunos = 0;
+      }
 
       if (this.id && this.id > 0) {
         curso.cursoId = this.id;

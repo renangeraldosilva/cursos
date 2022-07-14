@@ -77,6 +77,7 @@ export class ListaComponent implements OnInit {
     this.descricao = '';
     this.dataInicio = '';
     this.dataTermino = '';
+    this.obterTodosOsCursos();
   }
 
   filtrarPorDescricaoDataInicioDataTermino(): void {

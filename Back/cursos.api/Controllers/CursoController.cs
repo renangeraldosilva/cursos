@@ -143,6 +143,16 @@ namespace cursos.api.Controllers
                 return "Existe(m) curso(s) planejado(s) dentro do período informado.";
             }
 
+            if(curso.QtdaAlunos < 0)
+            {
+                return "O campo quantidade de alunos por turma não pode ter um valor menor que 0.";
+            }
+
+            if(curso.DataInicio.Date > curso.DataTermino.Date)
+            {
+                return "O campo data início não pode ser maior que o campo data término.";
+            }
+
             return "Ok";
         }
 
