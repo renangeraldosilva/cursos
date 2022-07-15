@@ -67,8 +67,8 @@ export class ListaComponent implements OnInit {
         this.toastr.success('Registro Deletado!');
         this.obterTodosOsCursos();
       },
-      (error) => {
-        this.toastr.error('Ocorreu um erro', 'Atenção!');
+      (respostaError) => {
+        this.toastr.error(respostaError.error);
       }
     );
   }

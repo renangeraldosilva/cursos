@@ -1,4 +1,4 @@
 export class Categoria {
-    categoriaId: number = 0;
+  categoriaId: number = 0;
   tipo: string = '';
 }
